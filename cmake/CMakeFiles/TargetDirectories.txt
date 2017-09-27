@@ -1,3 +1,0 @@
-/home/latty/Prog/__EDX__/CSE167x Computer Graphics/hw0-linux_osx/cmake/CMakeFiles/rebuild_cache.dir
-/home/latty/Prog/__EDX__/CSE167x Computer Graphics/hw0-linux_osx/cmake/CMakeFiles/edit_cache.dir
-/home/latty/Prog/__EDX__/CSE167x Computer Graphics/hw0-linux_osx/cmake/CMakeFiles/mytest3.dir

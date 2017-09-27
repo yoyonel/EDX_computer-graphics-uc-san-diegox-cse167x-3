@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/mytest3.dir/mytest3.cpp.o CMakeFiles/mytest3.dir/shaders.cpp.o  -o mytest3 -rdynamic -lGLU -lGL -lglut -lXmu -lXi -lGLEW -lfreeimage 
