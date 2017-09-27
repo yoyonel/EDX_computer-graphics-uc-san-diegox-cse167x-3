@@ -1,4 +1,14 @@
 # 
+records/
+
+#
+.pbtmp*
+ffmpeg2pass-*
+
+# 
+traces/
+
+# 
 build/
 
 # Prerequisites
