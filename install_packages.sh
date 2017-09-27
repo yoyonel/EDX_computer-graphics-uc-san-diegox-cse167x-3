@@ -6,4 +6,8 @@ sudo apt-get install 	\
 	glew-utils 			\
 	libglew1.6-dev 		\
 	libfreeimage-dev	\
-	libva-glx1
+	libva-glx1          \
+    libglm-dev          \
+    libfreeimage-dev    \
+    libxi-dev           \
+    libxmu-dev
