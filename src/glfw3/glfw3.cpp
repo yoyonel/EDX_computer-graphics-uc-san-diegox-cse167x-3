@@ -320,8 +320,13 @@ void display(void)
     // start processing buffered OpenGL routines
 
 
-//    glutSwapBuffers();
+    //    glutSwapBuffers();
     glFlush();
+}
+
+void moveTeapot() {
+    rotamount = 45.0;
+    teapotloc = -0.05;
 }
 
 void window_size_callback(GLFWwindow* window, int width, int height)
@@ -334,9 +339,90 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     reshape(width, height);
 }
 
+/**
+ * @brief key_callback
+ * @param window
+ * @param key
+ * @param scancode
+ * @param action
+ * @param mods
+ *
+ * http://www.glfw.org/docs/latest/input_guide.html#input_keyboard
+ */
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (action == GLFW_PRESS) {
+        switch (key) {
+        case GLFW_KEY_H:
+            printHelp();
+            break;
+        case GLFW_KEY_O:
+            //            saveScreenshot();
+            break;
+        case GLFW_KEY_I:
+            moveTeapot();
+            eyeloc = 2.0f;
+            // Immediately update the modelview matrix
+            modelview = glm::lookAt(glm::vec3(0, -eyeloc, eyeloc), glm::vec3(0, 0, 0), glm::vec3(0, 1, 1));
+            // Send the updated matrix to the shader
+            glUniformMatrix4fv(modelviewPos, 1, GL_FALSE, &(modelview)[0][0]);
+            texturing = 1;
+            lighting = 1;
+            animate = 0;
+            break;
+        case GLFW_KEY_ESCAPE:  // Escape to quit
+            exit(0) ;
+            break ;
+        case GLFW_KEY_P: // ** NEW ** to pause/restart animation
+            animate = !animate ;
+            break ;
+        case GLFW_KEY_T: // ** NEW ** to turn on/off texturing ;
+            texturing = !texturing ;
+            break ;
+        case GLFW_KEY_S: // ** NEW ** to turn on/off shading (always smooth) ;
+            lighting = !lighting ;
+            break ;
+        default:
+            break ;
+        }
+    }
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+//    if (button == GLFW_MOUSE_BUTTON_LEFT) {
+//        if (action == GLFW_RELEASE) {
+//            // Do Nothing ;
+//        }
+//        else if (action == GLFW_PRESS) {
+//            mouseoldx = x ; mouseoldy = y ; // so we can move wrt x , y
+//        }
+//    }
+//    else
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
+    { // Reset gluLookAt
+        eyeloc = 2.0 ;
+        modelview = glm::lookAt(glm::vec3(0, -eyeloc, eyeloc), glm::vec3(0, 0, 0), glm::vec3(0, 1, 1));
+        // Send the updated matrix to the shader
+        glUniformMatrix4fv(modelviewPos, 1, GL_FALSE, &(modelview)[0][0]);
+    }
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    eyeloc  += 0.15*yoffset;         // Where do we look from
+    if (eyeloc < 0) eyeloc = 0.0 ;
+//    mouseoldy = y ;
+
+    /* Set the eye location */
+    modelview = glm::lookAt(glm::vec3(0, -eyeloc, eyeloc), glm::vec3(0, 0, 0), glm::vec3(0, 1, 1));
+    // Send the updated matrix to the shader
+    glUniformMatrix4fv(modelviewPos, 1, GL_FALSE, &(modelview)[0][0]);
+}
+
 int main(void)
 {
-    GLFWwindow *MainWindow;
+    GLFWwindow *window;
 
     // http://www.codeincodeblock.com/2013/05/introduction-to-modern-opengl-3x-with.html
     if(!glfwInit())
@@ -348,15 +434,12 @@ int main(void)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-    MainWindow = glfwCreateWindow((int)640, (int)480,"Intro OpenGL with Shader",NULL,NULL);
-    if(!MainWindow)
+    window = glfwCreateWindow((int)640, (int)480,"Intro OpenGL with Shader",NULL,NULL);
+    if(!window)
         throw std::runtime_error("glfwOpenWindow failed. Can your hardware handle OpenGL 4.2?");
 
-    glfwSetFramebufferSizeCallback(MainWindow, framebuffer_size_callback);
-    glfwSetWindowSizeCallback(MainWindow, window_size_callback);
-
     // GLFW settings
-    glfwMakeContextCurrent(MainWindow);
+    glfwMakeContextCurrent(window);
     // initialise GLEW
     glewExperimental = GL_TRUE; //stops glew crashing on OSX :-/
     if(glewInit() != GLEW_OK)
@@ -376,15 +459,23 @@ int main(void)
 
     reshape(640, 480);
 
+    // Inputs events
+    glfwSetKeyCallback(window, key_callback);
+    glfwSetMouseButtonCallback(window, mouse_button_callback);
+    glfwSetScrollCallback(window, scroll_callback);
+    //
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetWindowSizeCallback(window, window_size_callback);
+
     /* Loop until the user closes the window */
-    while (!glfwWindowShouldClose(MainWindow))
+    while (!glfwWindowShouldClose(window))
     {
         /* Render here */
-//        glClear(GL_COLOR_BUFFER_BIT);
+        //        glClear(GL_COLOR_BUFFER_BIT);
         display();
 
         /* Swap front and back buffers */
-        glfwSwapBuffers(MainWindow);
+        glfwSwapBuffers(window);
 
         /* Poll for and process events */
         glfwPollEvents();

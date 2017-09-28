@@ -47,9 +47,10 @@ target_link_libraries(
 
 add_executable(
         glfw3_sample
-        src/glfw3.cpp
+        src/glfw3/glfw3.cpp
         src/shaders.cpp
         src/shaders.h
+        src/geometry3.h
 )
 
 # http://www.glfw.org/docs/3.0/build.html
@@ -57,7 +58,7 @@ find_package(glfw3 3.1 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
 
-include_directories(${GLFW_INCLUDE_DIRS})
+include_directories(${GLFW_INCLUDE_DIRS} src/)
 
 MESSAGE(GLFW_LIBRARIES: ${GLFW_LIBRARIES})
 target_link_libraries(
