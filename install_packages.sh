@@ -14,6 +14,8 @@ if [ -f "/etc/debian_version" ]; then
         libxi-dev           \
         libxmu-dev			\
         cmake				\
+        pkg-config          \
+        libglfw3-dev
 else
     dnf install -y \
         freeglut-devel \

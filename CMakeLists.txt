@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.8)
 
 project(mytest3)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 add_executable(
 	mytest3 
 	src/mytest3.cpp
@@ -46,8 +48,11 @@ target_link_libraries(
 add_executable(
         glfw3_sample
         src/glfw3.cpp
+        src/shaders.cpp
+        src/shaders.h
 )
 
+# http://www.glfw.org/docs/3.0/build.html
 find_package(glfw3 3.1 REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
@@ -58,5 +63,6 @@ MESSAGE(GLFW_LIBRARIES: ${GLFW_LIBRARIES})
 target_link_libraries(
         glfw3_sample
         ${OPENGL_LIBRARIES}
+        ${GLEW_LIBRARIES}
         ${GLFW_LIBRARIES}
 )
