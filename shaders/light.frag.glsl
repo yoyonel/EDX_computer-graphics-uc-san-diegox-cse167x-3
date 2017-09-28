@@ -1,4 +1,4 @@
-#version 330 core
+#version 330
 // Do not use any version older than 330!
 
 // Inputs to the fragment shader are outputs of the same name of the vertex shader
