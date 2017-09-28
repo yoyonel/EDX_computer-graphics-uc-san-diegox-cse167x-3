@@ -460,10 +460,16 @@ int main(int argc, char** argv)
     
     glutInit(&argc, argv);
 
+    // TODO: à revoir, semble exploser le nvidia-docker
+    // Faudrait effectuer un filtre sur le contexte d'execution
+    // Est t'on sous docker ?
+    // Est t'on sous NVIDIA ? AMD ? Intel ?
+    //
     // Ask for a core profile (compatibility with Intel drivers)
     // See https://stackoverflow.com/a/40573748
     glutInitContextVersion(3, 3);
     glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+    // glutInitContextFlags(GLUT_DEBUG);
     glutInitContextProfile(GLUT_CORE_PROFILE);
 
     // Requests the type of buffers (Single, RGB).

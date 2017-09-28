@@ -19,6 +19,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLUT REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(GLM REQUIRED)
+
 # https://raw.githubusercontent.com/myint/perceptualdiff/master/FindFreeImage.cmake
 find_package(FreeImage REQUIRED)
 
@@ -33,9 +34,29 @@ include_directories(
 # MESSAGE(${OPENGL_LIBRARIES})
 
 target_link_libraries(
-	mytest3 
-	${OPENGL_LIBRARIES} 
-	${GLUT_LIBRARY} 
-	${GLEW_LIBRARIES}
-	${FREEIMAGE_LIBRARIES}
+        mytest3
+        ${OPENGL_LIBRARIES}
+        ${GLUT_LIBRARY}
+        ${GLEW_LIBRARIES}
+        ${FREEIMAGE_LIBRARIES}
+)
+
+
+
+add_executable(
+        glfw3_sample
+        src/glfw3.cpp
+)
+
+find_package(glfw3 3.1 REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_search_module(GLFW REQUIRED glfw3)
+
+include_directories(${GLFW_INCLUDE_DIRS})
+
+MESSAGE(GLFW_LIBRARIES: ${GLFW_LIBRARIES})
+target_link_libraries(
+        glfw3_sample
+        ${OPENGL_LIBRARIES}
+        ${GLFW_LIBRARIES}
 )
