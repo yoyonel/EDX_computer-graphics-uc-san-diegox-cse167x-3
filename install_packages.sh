@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-if [ -f "/etc/debian_version" ]; then
+# if [ -f "/etc/debian_version" ]; then
+if type "apt" > /dev/null; then
     apt update && \
     apt-get install -y 	\
         build-essential		\
@@ -13,8 +14,10 @@ if [ -f "/etc/debian_version" ]; then
         libfreeimage-dev    \
         libxi-dev           \
         libxmu-dev			\
-        cmake				\
-else
+        cmake               \
+        libglfw3-dev        \
+        pkgconf
+elif type "dnf" > /dev/null; then
     dnf install -y \
         freeglut-devel \
         glew-devel \
