@@ -21,6 +21,7 @@
 #else
 #include <GL/glew.h>
 #include <GL/glut.h>
+#include <GL/freeglut.h>
 #endif
 // Use of degrees is deprecated. Use radians for GLM functions
 #define GLM_FORCE_RADIANS
@@ -458,6 +459,12 @@ int main(int argc, char** argv)
     FreeImage_Initialise();
 
     glutInit(&argc, argv);
+
+    // Ask for a core profile (compatibility with Intel drivers)
+    // See https://stackoverflow.com/a/40573748
+    glutInitContextVersion(3, 3);
+    glutInitContextFlags(GLUT_FORWARD_COMPATIBLE);
+    glutInitContextProfile(GLUT_CORE_PROFILE);
 
     // Requests the type of buffers (Single, RGB).
     // Think about what buffers you would need...
