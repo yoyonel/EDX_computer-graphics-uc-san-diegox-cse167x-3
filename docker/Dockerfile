@@ -1,4 +1,4 @@
-FROM nvidia/cuda
+FROM nvidia/cuda:8.0-runtime-ubuntu16.04
 
 COPY install_packages.sh /home/install_packages.sh
 
